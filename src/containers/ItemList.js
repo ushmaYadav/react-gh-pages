@@ -6,12 +6,9 @@ class ItemList extends React.Component {
    
   render() {
     let itemArr = this.props.items;
-    // let myItems = this.props.items;
 
-    console.log(itemArr);
-    
     if(itemArr.length === 0){
-      return null
+      return <ul className= "list" onDragOver={this.props.handleOnDragOver}></ul>;
     }
   
     let handleCheckbox = this.props.handleCheckbox;
@@ -19,15 +16,14 @@ class ItemList extends React.Component {
 
     let listItems = itemArr.map((itemObj, i) => {
       // if (!myItems.includes(itemObj.id)) return null;
-      console.log("item obj is" +itemObj);
       return (
         
         <SingleItem
           key={itemObj.id}
           data={itemObj}
-          onClick={() => handleCheckbox(itemObj.id)}
-          checkedValue= {checkboxState.indexOf(itemObj.id) !== -1}
-          onChangeCheckbox={() => handleCheckbox(itemObj.id)}
+          onClick={() => handleCheckbox(itemObj)}
+          checkedValue= {checkboxState.filter(item => (item.id === itemObj.id)).length > 0}
+          // onChangeCheckbox={() => handleCheckbox(itemObj.id)}
           // handleOnDragEnd={this.props.handleOnDragEnd}
           // handleOnDragStart={this.props.handleOnDragStart}
           // dataIndex = {i}

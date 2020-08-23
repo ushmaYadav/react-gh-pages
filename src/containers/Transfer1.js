@@ -45,17 +45,11 @@ class Transfer extends PureComponent{
     debugger;
     let leftChecked = intersection(this.state.checkedItem, this.state.source);
 
-    console.log('checked items is' +this.state.checkedItem);
-
     this.setState({
       target: this.state.target.concat(leftChecked),
       source: not(this.state.source, leftChecked),
       checkedItem: not(this.state.checkedItem, leftChecked)
     })
-
-    console.log('dhd source' + this.state.source);
-    console.log('dhd right' + this.state.target);
-    console.log('dhd checkedItem' + this.state.checkedItem);
 
   };
 
@@ -63,7 +57,6 @@ class Transfer extends PureComponent{
     debugger;
     let rightChecked = intersection(this.state.checkedItem, this.state.target);
 
-    console.log('checked items is' +this.state.checkedItem);
 
     this.setState({
       source: this.state.source.concat(rightChecked),
@@ -71,9 +64,6 @@ class Transfer extends PureComponent{
       checkedItem: not(this.state.checkedItem, rightChecked)
     })
 
-    console.log('dhd1 source' + this.state.source);
-    console.log('dhd1 right' + this.state.target);
-    console.log('dhd1 checkedItem' + this.state.checkedItem);
   };
 
   customList = (items) => {
@@ -81,7 +71,6 @@ class Transfer extends PureComponent{
     debugger;
 
     items.map((itemObj, i) => {
-      //console.log('my items is' +myItems);
       
       //if (!items.includes(itemObj.id)) return null;
 
