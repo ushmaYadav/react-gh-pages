@@ -15,105 +15,111 @@ import ItemList from './ItemList';
 
 // }
 
-function arrayModifier(arr, arr1, operation){
-  let result = [];
+// util fn for intersection and difference
+function arrayModifier(arr, arr1, operation) {
+  let result = [], tempArr = [];
 
-  for(let i=0;i<arr.length;++i) {
-    for(let j=0;j<arr1.length;++j) {
-        if(arr[i].id === arr1[j].id) {
-           if(operation){
-              result.push(arr[i]);
-            }else{
-              arr.splice(i, 1);
-            }
+  // swap the array if required, based on the operation.
+  if (operation && arr1.length > arr.length) {
+    tempArr = [...arr1];
+    arr1 = [...arr];
+    arr = tempArr;
+  } else if (!operation && arr1.length < arr.length) {
+    tempArr = [...arr1];
+    arr1 = [...arr];
+    arr = tempArr;
+  }
 
+  for (let i = 0; i < arr.length; ++i) {
+    for (let j = 0; j < arr1.length; ++j) {
+      if (arr[i].id === arr1[j].id) {
+        if (operation) {
+          result.push(arr[i]);
+        } else {
+          arr1.splice(j, 1);
+          --j;
         }
-
+      }
     }
   }
 
-  if(!operation){
-    result.concat(arr);
+  if (!operation) {
+    return result.concat(arr1);
   }
 
   return result;
-
 }
 
 let placeholder = document.createElement("li");
 placeholder.className = "placeholder";
 
-class Transfer extends PureComponent{
-  constructor(props){
+class Transfer extends PureComponent {
+  constructor(props) {
     super(props);
     this.state = {
       source: props.data,
       target: [],
       checkedItem: []
     };
-    
+
   }
-  
+
   handleCheckbox = (value) => {
-    const currentIndex = this.state.checkedItem.indexOf(value);
+    // finding if item is already in checkedlist
+    let index = -1;
+    for (let i = 0; i < this.state.checkedItem.length; ++i) {
+      if (this.state.checkedItem[i].id === value.id) {
+        index = i;
+        break;
+      }
+    }
+
     const checkedList = [...this.state.checkedItem];
 
-    if (currentIndex === -1) {
+    if (index < 0) {
       checkedList.push(value);
     } else {
-      checkedList.splice(currentIndex, 1);
+      checkedList.splice(index, 1);
     }
 
     this.setState({
-      checkedItem: checkedList 
+      checkedItem: checkedList
     });
-    
   }
-  
+
   handleCheckedRight = () => {
 
-    //let leftChecked = intersection(this.state.checkedItem, this.state.source);
-
-    let leftChecked = arrayModifier(this.state.source, this.state.checkedItem, true)
-    let notChecked = arrayModifier(this.state.source, this.state.checkedItem, false)
+    let leftChecked = arrayModifier(this.state.source, this.state.checkedItem, true);
+    let notChecked = arrayModifier(this.state.source, this.state.checkedItem, false);
 
     this.setState({
       target: this.state.target.concat(leftChecked),
       source: notChecked,
-      checkedItem: notChecked
+      checkedItem: []
     })
-
-    // this.setState({
-    //   target: this.state.target.concat(leftChecked),
-    //   source: not(this.state.source, leftChecked),
-    //   checkedItem: not(this.state.checkedItem, leftChecked)
-    // })
   };
 
   handleCheckedLeft = () => {
-    
-    let rightChecked = intersection(this.state.checkedItem, this.state.target);
 
-    console.log('checked items is' +rightChecked);
+    let rightChecked = arrayModifier(this.state.target, this.state.checkedItem, true);
+    let notChecked = arrayModifier(this.state.target, this.state.checkedItem, false);
 
     this.setState({
       source: this.state.source.concat(rightChecked),
-      target: not(this.state.target, rightChecked),
-      checkedItem: not(this.state.checkedItem, rightChecked)
+      target: notChecked,
+      checkedItem: []
     })
   };
 
+  render() {
 
-
-  render(){
-    
-    return(
+    return (
       <div className="wrapper">
-       <ItemList
+        <ItemList
           handleCheckbox={this.handleCheckbox}
           items={this.state.source}
           allItems={this.props.data}
-          checkboxState = {this.state.checkedItem}
+          checkboxState={this.state.checkedItem}
         />
 
         <div className="arrow-wrapper">
@@ -127,17 +133,17 @@ class Transfer extends PureComponent{
 
         <ItemList
           handleCheckbox={this.handleCheckbox}
-          items = {this.state.target}
-          allItems = {this.props.data}
-          checkboxState = {this.state.checkedItem}
-         
-          // handleOnDragEnd = {this.dragEnd.bind(this)}
-          // handleOnDragStart = {this.dragStart.bind(this)}
-          // handleOnDragOver = {this.dragOver.bind(this)}
-          // dataIndex = {this.props.data.name}
+          items={this.state.target}
+          allItems={this.props.data}
+          checkboxState={this.state.checkedItem}
+
+        // handleOnDragEnd = {this.dragEnd.bind(this)}
+        // handleOnDragStart = {this.dragStart.bind(this)}
+        // handleOnDragOver = {this.dragOver.bind(this)}
+        // dataIndex = {this.props.data.name}
         />
       </div>
-     
+
     )
   }
 

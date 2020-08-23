@@ -4,7 +4,6 @@ class SingleItem extends React.Component {
   render() {
     let data = this.props.data;
 
-    console.log("data is" +data);
     return (
       <li onClick={this.props.onClick} 
       
