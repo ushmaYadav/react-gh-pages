@@ -1,24 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
+import './commonStyles/common.scss';
 import './App.css';
+import Transfer from './containers/Transfer';
+
+const mockData = [
+];
+
+for (let i = 0; i < 5; i++) {
+  mockData.push({
+    id: i,
+    name: `Content${i + 1}`,
+  });
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React Transfer Component
-        </a>
-      </header>
+      <Transfer data={mockData}/>
     </div>
   );
 }

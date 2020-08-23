@@ -1,0 +1,30 @@
+body, html{
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#fff;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: inherit;
+}
+
+li{
+  list-style-type: none;
+
+  &:hover{
+    background: #eee;
+  }
+}
+
+input[type="checkbox"]{
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin:0;
+  margin-right: 12px;
+  border: 1px solid #757575;
+}
